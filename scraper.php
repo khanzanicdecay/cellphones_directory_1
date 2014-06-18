@@ -64,16 +64,18 @@ class GSMAParser {
 
         $html_content = scraperwiki::scrape($page);
         $this->html = str_get_html($html_content);
-
-        foreach ($this->html->find("div.makers a") as $el) {
-            $img = $el->find('img',0);
-            $m['name'] = $brandName . ' ' . $el->find('strong',0)->innertext;
+        
+        foreach ($this->html->find("#main") as $el) {
+            $img = $el->find('#specs-cp-pic img',0);
+            $tmp = $el->find('.brand h1',0)->innertext;
+            $m['name'] = str_replace(" ", "<br>", $tmp);
             $m['img'] = $img->src;
-            $m['link'] = 'http://www.gsmarena.com/'.$el->href;
-            $m['desc'] = $img->title;
-            $temp = explode('-',$el->href);
-            $m['id'] = (int) substr($temp[1], 0, -4);
-            $m['brand_id'] = $brandId;
+            $im = file_get_contents($img->src);
+            $m['img'] = base64_encode($im);
+            $tmp = explode(' ', $tmp, 2);
+            $m['rname'] = $tmp[1];
+            $out = explode('<td class="ttl"><a href="glossary.php3?term=chipset">Chipset</a></td>', $el);
+            $m['desc'] = explode('</td>',$out[1]);
 
             scraperwiki::save_sqlite(array("id"=>$m['id']), $m, "cell_model");
 
