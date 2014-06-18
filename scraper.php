@@ -1,4 +1,5 @@
 <?php
+require 'scraperwiki.php';
 //hasta aqui http://www.gsmarena.com/sendo-phones-18.php
 require 'scraperwiki/simple_html_dom.php';           
 
