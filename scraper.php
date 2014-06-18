@@ -39,7 +39,7 @@ class GSMAParser {
                 
                 $this->brands[] = $b;
                 
-                scraperwiki::save_sqlite(array("id"=>$b['id']), $b, "cell_brand");
+                scraperwiki::save_sqlite(array("id"=>$b['id']), $b, "cellbrand");
 
             }           
         
@@ -79,7 +79,7 @@ class GSMAParser {
             $temp = explode('-',$el->href);
             $m['id'] = (int) substr($temp[1], 0, -4);
 
-            scraperwiki::save_sqlite(array("id"=>$m['id']), $m, "cell_model");
+            scraperwiki::save_sqlite(array("id"=>$m['id']), $m, "cellmodel");
 
             $this->models++;
 
