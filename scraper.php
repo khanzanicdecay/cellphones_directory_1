@@ -76,6 +76,8 @@ class GSMAParser {
             $m['rname'] = $tmp[1];
             $out = explode('<td class="ttl"><a href="glossary.php3?term=chipset">Chipset</a></td>', $el);
             $m['desc'] = explode('</td>',$out[1]);
+            $temp = explode('-',$el->href);
+            $m['id'] = (int) substr($temp[1], 0, -4);
 
             scraperwiki::save_sqlite(array("id"=>$m['id']), $m, "cell_model");
 
