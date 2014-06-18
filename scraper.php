@@ -67,6 +67,7 @@ class GSMAParser {
         
         foreach ($this->html->find("#main") as $el) {
             $img = $el->find('#specs-cp-pic img');
+            print_r($img);
             $tmp = $el->find('.brand h1',0)->innertext;
             $m['name'] = str_replace(" ", "<br>", $tmp);
             $m['img'] = $img->src;
