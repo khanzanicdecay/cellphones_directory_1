@@ -66,7 +66,7 @@ class GSMAParser {
         $this->html = str_get_html($html_content);
         
         foreach ($this->html->find("#main") as $el) {
-            $img = $el->find('#specs-cp-pic img',0);
+            $img = $el->find('#specs-cp-pic img');
             $tmp = $el->find('.brand h1',0)->innertext;
             $m['name'] = str_replace(" ", "<br>", $tmp);
             $m['img'] = $img->src;
@@ -79,7 +79,7 @@ class GSMAParser {
             $temp = explode('-',$el->href);
             $m['id'] = (int) substr($temp[1], 0, -4);
 
-            scraperwiki::save_sqlite(array("id"=>$m['id']), $j, "cellmodel");
+            scraperwiki::save_sqlite(array("id"=>$m['id']), $m, "cellmodel");
 
             $this->models++;
 
