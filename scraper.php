@@ -73,7 +73,7 @@ class GSMAParser {
             $m['name'] = str_replace(" ", "<br>", $tmp[0]);
             $imgtmp = explode('" src="',$tmp[1]);
             $imgtmp2 = explode('"',$imgtmp[0]);
-            $im = file_get_contents($imgtmp2[0]);
+            $im = file_get_contents($imgtmp2[1]);
             $m['img'] = base64_encode($im);
             $tmp = explode(' ', $tmp[0], 2);
             $m['rname'] = $tmp[1];
