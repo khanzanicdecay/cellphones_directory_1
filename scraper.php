@@ -65,15 +65,17 @@ class GSMAParser {
         $html_content = scraperwiki::scrape($page);
         $this->html = str_get_html($html_content);
         
-        foreach ($this->html->find("#main") as $el) {
-            $img = $el->find('#specs-cp-pic img');
-            print_r($el);
-            $tmp = $el->find('.brand h1',0)->innertext;
-            $m['name'] = str_replace(" ", "<br>", $tmp);
-            $m['img'] = $img->src;
-            $im = file_get_contents($img->src);
+        foreach ($this->html as $el) {
+            $el = explode('<div id="main">', $el,2);
+            $el = $el[1];
+            $st = explode('<h1>', $el,2);
+            $tmp = explode('</h1>',$st[1],2);
+            $m['name'] = str_replace(" ", "<br>", $tmp[0]);
+            $imgtmp = explode('src="',$tmp[1]);
+            $imgtmp2 = explode('"',$imgtmp[0]);
+            $im = file_get_contents($imgtmp2[0]);
             $m['img'] = base64_encode($im);
-            $tmp = explode(' ', $tmp, 2);
+            $tmp = explode(' ', $tmp[0], 2);
             $m['rname'] = $tmp[1];
             $out = explode('<td class="ttl"><a href="glossary.php3?term=chipset">Chipset</a></td>', $el);
             $m['desc'] = explode('</td>',$out[1]);
