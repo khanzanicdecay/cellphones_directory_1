@@ -64,7 +64,10 @@ class GSMAParser {
 
         $html_content = scraperwiki::scrape($page);
         $this->html = str_get_html($html_content);
-        
+        echo "<pre">;
+        print_r($html_content);
+        echo "</pre>";
+        die();
         foreach ($this->html as $el) {
             $el = explode('<div id="main">', $el,2);
             $el = $el[1];
