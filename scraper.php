@@ -66,23 +66,29 @@ class GSMAParser {
         $this->html = str_get_html($html_content);
         
         foreach ($this->html as $el) {
+            $el = $html;
             $el = explode('<div id="main">', $el,2);
             $el = $el[1];
             $el2 = $el;
             $st = explode('<h1>', $el,2);
             $tmp = explode('</h1>',$st[1],2);
-            $m['name'] = str_replace(" ", "<br>", $tmp[0]);
-            $imgtmp = explode('<div id="specs-cp-pic">',$tmp[1]);
+            $ntmp = explode(' ',$tmp[0], 2);
+            $imgtmp = explode('<div id="specs-cp-pic">',$el2);
             $imgtmp2 = explode('src="',$imgtmp[1]);
-            $imgtmp3 = explode('"',$imgtmp[1]);
-            $im = file_get_contents($imgtmp3[0]);
-            $m['img'] = base64_encode($im);
+            $imgtmp3 = explode('src=',$imgtmp[1]);
+            $imgtmp4 = explode('>', $imgtmp3[1]);
+            $im = file_get_contents($imgtmp4[0]);
+            $m['img'] = 'data:image/jpg;base64,' . base64_encode($im);
             $tmp = explode(' ', $tmp[0], 2);
             $m['rname'] = $tmp[1];
             $out = explode('<td class="ttl"><a href="glossary.php3?term=chipset">Chipset</a></td>', $el);
-            $m['desc'] = explode('</td>',$out[1]);
-            $temp = explode('-',$el->href);
-            $m['id'] = (int) substr($temp[1], 0, -4);
+            $mdtemp = explode('</td>',$out[1]);
+            $m['desc'] = rtrim(trim(str_replace(array("\r", "\n"), '', (string)$mdtemp[0])));
+            $dtmp = explode(' ',$m['desc'],3);
+            $m['name'] = $ntmp[0]. "<br>" . $ntmp[1] . "<br>" . $dtmp[2];
+            $temp = explode('-', $_SERVER['REQUEST_URI']);
+            $m['id'] = (int) substr($temp[0], 0, -4);
+
 
             scraperwiki::save_sqlite(array("id"=>$m['id']), $m, "cellmodel");
 
