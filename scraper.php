@@ -66,7 +66,6 @@ class GSMAParser {
         $this->html = str_get_html($html_content);
         
         foreach ($this->html as $el) {
-            $el = $html;
             $el = explode('<div id="main">', $el,2);
             $el = $el[1];
             $el2 = $el;
