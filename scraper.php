@@ -68,10 +68,11 @@ class GSMAParser {
         foreach ($this->html as $el) {
             $el = explode('<div id="main">', $el,2);
             $el = $el[1];
+            $el2 = $el;
             $st = explode('<h1>', $el,2);
             $tmp = explode('</h1>',$st[1],2);
             $m['name'] = str_replace(" ", "<br>", $tmp[0]);
-            $imgtmp = explode('<div id="specs-cp-pic">',$el);
+            $imgtmp = explode('<div id="specs-cp-pic">',$el2);
             $imgtmp2 = explode('src="',$imgtmp[1]);
             $imgtmp3 = explode('"',$imgtmp[1]);
             $im = file_get_contents($imgtmp3[0]);
