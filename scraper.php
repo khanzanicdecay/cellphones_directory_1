@@ -72,7 +72,7 @@ class GSMAParser {
             $st = explode('<h1>', $el,2);
             $tmp = explode('</h1>',$st[1],2);
             $m['name'] = str_replace(" ", "<br>", $tmp[0]);
-            $imgtmp = explode('<div id="specs-cp-pic">',$el2);
+            $imgtmp = explode('<div id="specs-cp-pic">',$tmp[1]);
             $imgtmp2 = explode('src="',$imgtmp[1]);
             $imgtmp3 = explode('"',$imgtmp[1]);
             $im = file_get_contents($imgtmp3[0]);
